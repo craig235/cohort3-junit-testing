@@ -1,5 +1,6 @@
 package com.qa.junit.repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,9 +15,8 @@ public class Repository {
 	List<Employee> empList;
 
 	public Repository() {
-		this.empList = Arrays.asList(new Employee(111, "emp1", 32423.23), new Employee(222, "emp2", 42423.23),
-				new Employee(333, "emp3", 52423.23));
-
+		this.empList = new ArrayList<Employee>(Arrays.asList(new Employee(111, "emp1", 32423.23), new Employee(222, "emp2", 42423.23),
+				new Employee(333, "emp3", 52423.23)));
 	}
 
 	public Employee getEmployeeById(int id) throws EmployeeNotFoundException, InvalidInputException  {
@@ -27,11 +27,23 @@ public class Repository {
 				
 	}
 
+	public List<Employee> getAllEmployee() {
+		if (empList == null) {
+			return new ArrayList<Employee>();
+		}
+		return empList;
+	}
+
+	public boolean addEmployee(Employee empl) {
+		if (empList == null) {
+			return false;
+		}
+		empList.add(empl);
+		return true;
+	}
+
 	private boolean validId(int id) {
-		boolean valid = false;
-		if(id > 0)
-			valid = true;
-		return valid;
+		return id > 0;
 	}
 
 }

@@ -4,14 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import com.qa.junit.exception.EmployeeNotFoundException;
 import com.qa.junit.exception.InvalidInputException;
 import com.qa.junit.model.Employee;
+
+import java.util.List;
 
 public class RepositoryTest {
 	
@@ -59,10 +58,30 @@ public class RepositoryTest {
 	/*
 	 * Write the test cases for getAllEmployees
 	 */
-	
+	@Test
+	@DisplayName("getAllEmployee")
+	public void givenNoInput_whenGetAllEmpoyee() {
+		List<Employee> list = this.repository.getAllEmployee();
+		assertNotNull(list);
+		Assertions.assertNotEquals(0,list.size());
+	}
+
 	/*
 	 * Write the test cases for addEmployee(employee)
 	 */
-	
-	
+	@Test
+	@DisplayName("addEmployee")
+	public void givenEmployee_addEmployeeToRepository_thenEmployeeNotFoundException () throws EmployeeNotFoundException, InvalidInputException {
+
+		// add
+		Employee employee = new Employee(444, "emp4", 62423.23);
+		boolean result = this.repository.addEmployee(employee);
+		assert(result);
+
+		// retrieve and check
+		employee = this.repository.getEmployeeById(444);
+		assertNotNull(employee);
+		assertEquals("emp4", employee.getName());
+		assertEquals(62423.23,employee.getSalary());
+	}
 }
